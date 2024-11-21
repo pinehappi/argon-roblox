@@ -89,6 +89,8 @@ local Theme = {
 		Small = 28,
 	},
 
+	FadeTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+
 	SpringSpeed = 30,
 	SpringDamping = 1.5,
 

@@ -54,6 +54,8 @@ local Children = Fusion.Children
 local cleanup = Fusion.cleanup
 local peek = Fusion.peek
 
+local fade = require(Components.Util.fade)
+
 local RECONNECT_INTERVAL = 5
 
 local App = {}
@@ -204,40 +206,11 @@ function App:setPage(page)
 			return
 		end
 
-		local TWEEN_INFO = TweenInfo.new(0.2, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
-		TweenService:Create(page, TWEEN_INFO, { BackgroundTransparency = 1 }):Play()
-
-		for _, descendant in ipairs(page:GetDescendants()) do
-			local properties = {}
-
-			if descendant:IsA("GuiObject") then
-				if descendant:IsA("GuiButton") then
-					descendant.Active = false
-				end
-
-				properties.BackgroundTransparency = 1
-
-				if descendant:IsA("TextLabel") or descendant:IsA("TextButton") or descendant:IsA("TextBox") then
-					properties.TextTransparency = 1
-				elseif descendant:IsA("ImageLabel") or descendant:IsA("ImageButton") then
-					properties.ImageTransparency = 1
-				end
-			end
-
-			if descendant:IsA("UIStroke") then
-				properties.Transparency = 1
-			end
-
-			if next(properties) then
-				TweenService:Create(descendant, TWEEN_INFO, properties):Play()
-			end
-		end
-
 		page.ZIndex = 2
-
+		
 		size:set(UDim2.fromScale(1.2, 1))
+		fade(page, {})
 
-		task.wait(0.2)
 		cleanup(page)
 	end)
 
